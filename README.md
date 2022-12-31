@@ -106,6 +106,21 @@ Sample output for `libpng` is available in the `samples/libpng16.so.16.38.0_stri
 
 I went a little overboard making this script so I'm including it in the repo even though it would need a bunch more work to be useful for anything other than `libpng`: `extras/debug_summaries.py`. For each function in a `summaries.jsonl` it shows the summary, the original function name (using the debug symbols), an a side-by-side view of the original source code and the decompiled code.
 
+If you want to run it yourself, you need to first get the `libpng` source, then run the script:
+
+```console
+$ cd samples/srcs
+$ bash clone.sh
+[...]
+$ cd ../..
+$ python extras/debug_summaries.py \
+    samples/bins/libpng16.so.16.38.0 \
+    samples/libpng16.so.16.38.0_stripped/summaries_png_read_info.jsonl \
+    samples/libpng16.so.16.38.0_stripped/decompilations.json
+```
+
+Alternatively you can just look at the sample output here: https://moyix.net/~moyix/libpng_png_set_info_summaries.html
+
 ### How It Works
 
 GPT-WPRE starts by performing a [topological sort](https://en.wikipedia.org/wiki/Topological_sorting) on the call graph to get a list of functions in the order they should be summarized. It then iteratively summarizes each function, using the summaries of its callees as context. For example, if we have the following call graph and we want to summarize function A:
