@@ -1,0 +1,6 @@
+ghidra_bridge
+openai
+backoff
+pygments
+transformers
+tqdm
