@@ -106,8 +106,6 @@ Sample output for `libpng` is available in the `samples/libpng16.so.16.38.0_stri
 
 I went a little overboard making this script so I'm including it in the repo even though it would need a bunch more work to be useful for anything other than `libpng`: `extras/debug_summaries.py`. For each function in a `summaries.jsonl` it shows the summary, the original function name (using the debug symbols), an a side-by-side view of the original source code and the decompiled code.
 
-```console
-
 ### How It Works
 
 GPT-WPRE starts by performing a [topological sort](https://en.wikipedia.org/wiki/Topological_sorting) on the call graph to get a list of functions in the order they should be summarized. It then iteratively summarizes each function, using the summaries of its callees as context. For example, if we have the following call graph and we want to summarize function A:
@@ -157,4 +155,4 @@ This all happens in `recursive_summarize.py`'s `summarize_long_code` function.
 
 * We don't try to deal with mutual recursion or other non-simple cycles in the call graph, and the topological sort will just throw an exception if it finds a cycle.
 * These prompts are the first ones that occurred to me, and probably some prompt engineering would improve the summaries!
-*
+* Lots of ways this could be faster, e.g. by batching together requests to summarize things that don't depend on each other. Also pretty sure Ghidra has faster/better ways to get the call graph and decompilation.
